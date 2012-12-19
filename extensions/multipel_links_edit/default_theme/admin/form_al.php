@@ -1,0 +1,1 @@
+<form action="admin_links.php" method="post">';

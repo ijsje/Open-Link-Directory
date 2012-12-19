@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>show_number_of_links</id>
+	<title>Show number of links</title>
+	<version>0.01</version>
+	<author>Anders Persson</author>
+	<description>Displays the number of links in categories on the category link.</description>
+	<hooks>
+		<hook id="categories_category_cells_header">
+			<![CDATA[
+				$sql = $db->query("SELECT * FROM " .$db_prefix. "links WHERE category_id=" .$category['id']. " AND payment_status<>'no'".OPENLD_IF_ACTIVE_LINKS) 
+					or error("num_links_per_cat", __FILE__, __LINE__);
+				$num_links = $db->num_rows($sql);
+				$category['title'] = $category['title']. ' ('.$num_links.')';
+			]]>
+		</hook>
+	</hooks>
+</extension>

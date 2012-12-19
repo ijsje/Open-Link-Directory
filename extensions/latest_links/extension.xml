@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>latest_links</id>
+	<title>Latest Links</title>
+	<version>0.02</version>
+	<author>Anders Persson</author>
+	<description>Display a page with the latest links</description>
+	<hooks>
+		<hook id="navigation_menu_footer">
+			<![CDATA[
+				ext_lang('latest_links');
+				require ext_theme_include('latest_links', 'latest_link_link.php');
+			]]>
+		</hook>
+		<hook id='index_default_page'>
+			<![CDATA[
+				if(isset($_GET['display']) && $_GET['display'] == "latest_links")
+				{
+					$links_to_display = 20;
+					$query = array(
+						'SELECT' => 'title, url, date_submitted',
+						'FROM' => 'links',
+						'WHERE' => 'payment_status<>"no"'. OPENLD_IF_ACTIVE_LINKS,
+						'ORDER BY' => 'ID DESC',
+						'LIMIT' => '0,'. $links_to_display
+					);
+					$latest_links_sql = $db->query_build($query) or error(__FILE__, __LINE__);
+
+					ext_theme_page('latest_links', 'index.php');
+				}
+			]]>
+		</hook>
+	</hooks>
+</extension>

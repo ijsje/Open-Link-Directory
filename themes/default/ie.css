@@ -1,0 +1,56 @@
+/* Internet Explorer Fixes
+-------------------------------------------------------------*/
+
+.ietabfix:active,
+#openldbb-admain,
+#openldbb-admain .openld-adblock,
+#openldbb-admain .openld-adblock .openld-adcontent,
+#openldbb-admain fieldset,
+#openldbb-admain .openld-adcontent fieldset p,
+#openldbb-admain .openld-adblock fieldset .astable,
+#openldbb-admain .openld-adblock li.datafield,
+#openldbb-admain .openld-adform .adformpanel,
+#openldbb-adnav,
+#adnav-standard,
+#openldbb-adnav li a {
+	zoom: 1;
+	}
+
+#openldbb-admain .openld-adblock fieldset {
+	padding-top: 0;
+	margin-top: -1.2em;
+	}
+
+#openldbb-admain .openld-adblock fieldset legend {
+	margin: 0 0 0 -11px;
+	padding-top: 1.2em;
+	padding-bottom: 1.2em;
+	}
+
+#openldbb-admain .openld-adblock fieldset legend span {
+	margin: 0 0 0 0;
+	}
+
+* html #openldbb-admain fieldset p.buttoned span.adinput {
+	padding-bottom: 2.2em
+	}
+
+* html #openldbb-admain fieldset p.buttoned span.astable {
+	padding-bottom: 0.5em
+	}
+
+* html #openldbb-admain fieldset p.buttoned span.adinput em {
+	margin-bottom: -1.5em
+	}
+
+/* IE 5 and 6 Fixes
+-------------------------------------------------------------*/
+
+#openldbb-admain .openld-adblock fieldset .adinput,
+#openldbb-admain .openld-adblock .nvp {
+	zoom: 1;
+	}
+
+* html #openldbb-admain .openld-adblock fieldset p span.buttoned {
+	height:expression(this.scrollHeight < 50? "4em" : "auto" );
+	}

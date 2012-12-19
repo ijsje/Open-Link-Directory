@@ -1,0 +1,13 @@
+/* water color scheme: http://colorschemedesigner.com/#3u11TsOsOK-K- */
+#body .body a { color: #166492; }
+#body .body a:hover { color: #6BB7E4; }
+#body .header { background-color: #166492; color: #6BB7E4; }
+#body .header h1 { background: transparent url('logo.water.png') no-repeat 40px 15px; text-indent: -9999px; height: 50px; }
+#body .menublock { background-color: #032D45; color: inherit; }
+#body .menublock a { color: #166492; }
+#body .menublock a:hover { background-color: #166492; color: #6BB7E4; }
+#body .menublock .isactive a { background-color: #6BB7E4; color: #032D45; } 
+#body .footer { background-color: #2B495B; color: #A5CCE4;  }
+#body .footer a { color: #6BB7E4; }
+#body .footer a:hover { color: #6BB7E4; text-decoration: underline; }
+#body .category-link:before { content: "\0274D \00a0"; }

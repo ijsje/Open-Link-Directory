@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<theme>
+	<id>white_and_grey</id>
+	<title>White and grey</title>
+	<version>(Same as OpenLD)</version>
+	<author>default</author>
+	<description>A W3C validated theme with white background with black and grey colors.</description>
+	<thumbnail>thumb.png</thumbnail>
+</theme>

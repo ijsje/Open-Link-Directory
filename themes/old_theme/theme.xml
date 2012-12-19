@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<theme>
+	<id>old_theme</id>
+	<title>Old Theme</title>
+	<version>(Same as OpenLD)</version>
+	<author>default</author>
+	<description>The first default theme that was used for OpenLD. It has more boxes and visible borders than the default theme.</description>
+	<thumbnail>thumb.png</thumbnail>
+</theme>

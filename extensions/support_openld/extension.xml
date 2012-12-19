@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>support_openld</id>
+	<title>Support OpenLD</title>
+	<version>0.01</version>
+	<author>Anders Persson</author>
+	<description>Help support the development of OpenLD -- this extension will enable a 10% chance of a link payment going to one of the OpenLD authors instead of you.</description>
+	<hooks>
+		<hook id="submit_payment_sql_select">
+			<![CDATA[
+				$random_number = rand(1,30);
+
+				if($random_number==7)
+				{
+					$settings['paid_account_option'] = 'anders_persson_360@yahoo.se';
+					$settings['sponsor_account_option'] = 'anders_persson_360@yahoo.se';
+				}
+				elseif($random_number==18)
+				{
+					$settings['paid_account_option'] = 'mikael@osterberg.me';
+					$settings['sponsor_account_option'] = 'mikael@osterberg.me';
+				}
+				elseif($random_number==12)
+				{
+					$settings['paid_account_option'] = 'anthony@utuxia.com';
+					$settings['sponsor_account_option'] = 'anthony@utuxia.com';
+				}
+			]]>
+		</hook>
+	</hooks>
+</extension>

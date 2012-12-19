@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>related_categories</id>
+	<title>Related Categories</title>
+	<version>0.03</version>
+	<author>Anders Persson</author>
+	<description>Displays related categories on below the links if there are any related categories for the current category</description>
+	<hooks>
+		<hook id="links_after_first_if">
+			<![CDATA[
+				ext_lang('related_categories');
+				if(isset($_GET['id']) && $_GET['id'] != 0)
+				{
+					//Get the current category title
+					$query = array(
+						'SELECT' => 'title, description',
+						'FROM' => 'categories',
+						'WHERE' => 'id=' .intval($_GET['id'])
+					);
+					$current_category_sql = $db->query_build($query) or error(__FILE__, __LINE__);
+					$current_category_sql = $db->fetch_row($current_category_sql);
+
+					//Find the related categories(by checking it's description)
+					$title_related_sql_string = '';
+					//check for space
+					$title_related_sql = explode(' ', trim($current_category_sql[0]));
+					foreach($title_related_sql as $word)
+						$title_related_sql_string .= " OR description LIKE '%". $word ."%'";
+					//check for comma
+					$title_related_sql = explode(',', trim($current_category_sql[0]));
+					foreach($title_related_sql as $word)
+						$title_related_sql_string .= " OR description LIKE '%". $word ."%'";
+					//check for '-'
+					$title_related_sql = explode('-', trim($current_category_sql[0]));
+					foreach($title_related_sql as $word)
+						$title_related_sql_string .= " OR description LIKE '%". $word ."%'";
+
+					//Find the related categories(by checking it's title)
+					$title_related_sql_string = '';
+					//check for space
+					$title_related_sql = explode(' ', trim($current_category_sql[0]));
+					foreach($title_related_sql as $word)
+						$title_related_sql_string .= " OR title LIKE '%". $word ."%'";
+					//check for comma
+					$title_related_sql = explode(',', trim($current_category_sql[0]));
+					foreach($title_related_sql as $word)
+						$title_related_sql_string .= " OR title LIKE '%". $word ."%'";
+					//check for '-'
+					$title_related_sql = explode('-', trim($current_category_sql[0]));
+					foreach($title_related_sql as $word)
+						$title_related_sql_string .= " OR title LIKE '%". $word ."%'";
+
+					$query = array(
+						'SELECT' => 'id, title',
+						'FROM' => 'categories',
+						'WHERE' => 'active=1 AND id<>' .intval($_GET['id']). ' AND (title LIKE "%' .$db->escape($current_category_sql[0]). '%" ' .$title_related_sql_string. ')',
+						'LIMIT' => 10
+					);
+					$related_sql = $db->query_build($query) or error(__FILE__, __LINE__);
+
+					if($db->num_rows($related_sql) > 0)
+					{
+						//Make the links html
+						$related_page_links = '';
+						while($rel_row = $db->fetch_assoc($related_sql))
+						{
+							$related_page_links .= '<a href="'.openld_link('index_cat', se_index_cat($rel_row)).'">'.$rel_row['title'].'</a>&nbsp;&nbsp;';
+						}
+
+						require ext_theme_include('related_categories', 'related_categories.php');
+					}
+					else
+					{
+						//do something
+					}
+				}
+			]]>
+		</hook>
+	</hooks>
+</extension>

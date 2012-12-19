@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>featured_links_time</id>
+	<title>Featured links time</title>
+	<version>1.00</version>
+	<author>Anders Persson</author>
+	<description>This extension will let the directory owner set an option for how many days a featured link should be featured. Whe the link passes the allowed time, it will turn to a paid link.</description>
+	<install>
+		<![CDATA[
+			$query = array(
+				'INSERT' => 'title, value',
+				'INTO' => 'settings',
+				'VALUES' => '"featured_time", "0"'
+			);
+			$db->query_build($query) or error(__FILE__, __LINE__);
+			generate_settings_cache();
+		]]>
+	</install>
+	<uninstall>
+		<![CDATA[
+			if(isset($settings['featured_time']))
+			{
+				$query = array(
+					'DELETE' => 'settings',
+					'WHERE' => 'title="featured_time"'
+				);
+				$db->query_build($query) or error(__FILE__, __LINE__);
+			}
+			generate_settings_cache();
+		]]>
+	</uninstall>
+	<hooks>
+		<hook id='header_head_footer'>
+			<![CDATA[
+				if($settings['featured_time'] != 0)
+				{
+					$query = array(
+						'SELECT' => 'id, date_submitted',
+						'FROM' => 'links',
+						'WHERE' => 'type="d"'
+					);
+					$query = $db->query_build($query) or error(__FILE__, __LINE__);
+					if($db->num_rows($query) !== 0)
+					{
+						while($feat = $db->fetch_assoc($query))
+						{
+							$expire_date = strtotime($feat['date_submitted']) + $settings['featured_time'] * 24 * 60 * 60;
+							if($expire_date < time())
+							{
+								$query = array(
+									'UPDATE' => 'links',
+									'SET' => 'type="c"',
+									'WHERE' => 'id='. $feat['id']
+								);
+								$db->query_build($query) or error(__FILE__, __LINE__);
+							}
+						}
+					}
+				}
+			]]>
+		</hook>
+		<hook id="links_types_featured_options_footer">
+			<![CDATA[
+				require ext_theme_include('featured_links_time', 'featured_options_footer.php');
+			]]>
+		</hook>
+		<hook id="admin_options_while_update">
+			<![CDATA[
+				$config['featured_time'] = intval($_POST['sponsor_expiration_time']);
+			]]>
+		</hook>
+		<hook id="sponsor_information">
+			<![CDATA[
+				if($settings['featured_time'] > 1)
+					echo ' (' .$settings['featured_time']. ' months)';
+				elseif($settings['featured_time'] > 0)
+					echo ' (' .$settings['featured_time']. ' month)';
+			]]>
+		</hook>
+	</hooks>
+</extension>

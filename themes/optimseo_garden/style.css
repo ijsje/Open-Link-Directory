@@ -1,0 +1,81 @@
+@import url('style.garden.css');
+
+/****************************************
+CLASSES
+.page
+.header
+.menublock
+.body
+.footer
+.navigation
+.category-link
+.isactive
+.left-menu
+.right-content
+.openld-sponsor-cell
+****************************************/
+
+body { background: #222; padding: 0 3%; margin: 0; font-family: sans-serif; }
+
+.page { background: #fff; border-left: 1px solid #000; border-right: 1px solid #000; margin: 0; }
+.header { background: #eee url('bg.png') repeat-x 0 0; border-bottom: 1px solid #000; padding-bottom: 0; }
+.header h1 { padding: .5em 1em 0 1em; margin: 0; }
+.header p { margin: 1em 2.5em; }
+.menublock { border-top: 1px solid #000; margin-bottom: 0; background: #888 url('bg.png') repeat-x 0 0; padding-left: 1.5em; }
+.menublock:after, .footer:after { content: '.'; display: block; clear: both; height: 0; font-size: 0; visibility: hidden; overflow: none; }
+.menublock li { display: block; float: left; padding: .5em 0; margin: 0 .5em;  }
+.menublock li:first-child { border-left: none; }
+.menublock a { color: #000; display: block; padding: .5em .8em; text-decoration: none; letter-spacing: 1px; -moz-border-radius: 12px/12px; -webkit-border-radius: 12px; border: 1px solid transparent; }
+.menublock a:hover { color: #ccc; background: #666 url('bg_rev.png') repeat-x 0 0; border: 1px solid #222; }
+.menublock a:active, .menublock a:focus { outline: none; }
+.menublock .isactive a { color: #eee; background: #444 url('bg_rev.png') repeat-x 0 0; border: 1px solid #000; }
+.body { padding: 20px 30px; }
+div.navigation, .body > h2, .body > h2:first-child, .body > .openld-block:first-child h2 { border-top: none; margin: -20px -30px 30px -30px; font-weight: bold; }
+.navigation, .body h2, .body br + .openld-block > h2 { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: .5em 1em; color: #222; background: #eee url('bg.png') repeat-x 0 0; text-transform: capitalize; font-size: 110%; margin: 20px -30px 30px -30px; }
+.body .openld-content { margin: 1em 2em; }
+.body a { color: #00f; }
+.body table { margin: 0 3em; }
+.body table td { padding: 1em; }
+table th { text-align: left; }
+.openld-block tbody.hasicon { border: none; }
+.hasicon tr:nth-child(odd) { background: transparent url('bg2.png') repeat-x bottom left; }
+.hasicon tr td { border-top: 1px solid #efefef; }
+.hasicon tr:first-child td { border-top: none; }
+.hasicon tr td:first-child, .openld-content .hasicon tr td:first-child { background: url('http://images.websnapr.com/?url=www.getwator.com&size=s&key=W9Ra71TcQeDa') no-repeat 1em 1em; padding-left: 235px; height: 250px; vertical-align: top; }
+.openld-content .hasicon tr td:first-child { height: 200px; }
+.hasicon br { margin-bottom: .5em; }
+form .warn { color: #f00; }
+label { display: block; }
+input[type='text'], textarea { -moz-border-radius: 6px/6px; border: 1px solid #999; -webkit-border-radius: 5px; padding: 5px 8px; background-color: #fcfcfc; }
+input[type='text']:focus, textarea:focus { border-style: inset; background-color: #f9f9f9; }
+form[action$='search.php'] td + td { color: inherit; }
+form { margin: 1em; }
+.hasicon form { margin: 0; }
+.hasicon form input[type='submit'] { margin: 0 1em; }
+textarea { width: 96%; }
+form table, .openld-content table { border-collapse: collapse; }
+form table, .openld-block tbody { border: 1px solid #efefef; }
+form td:first-child, .openld-content td:first-child { padding: 1em; /* white-space: nowrap; */ }
+.openld-content td.tcl:nth-child(2), .openld-block tr td:nth-child(1), form tr td:nth-child(1) { white-space: nowrap; }
+.openld-block tr td[style].tcl:nth-child(1) { white-space: normal; }
+.openld-block tr td:nth-child(2) { vertical-align: top; }
+form th, .openld-content th { border: none; padding: 1em 1em .5em 1em; background: #efefef; border: 1px solid #ccc; border-left: none; border-right: none; }
+form td { vertical-align: top; }
+form tr td:first-child, .openld-content tr td:first-child { padding: 1em; background: #efefef; }
+form input[type='submit'] { margin: 2em 4em; }
+.footer { background: #333 url('bg_rev.png') repeat-x bottom left; color: #666; font-size: 90%; padding: .5em 1em 3em 1em; }
+.footer a { color: #888; font-weight: normal; }
+.footer a:hover { color: #999; }
+.footer p { float: right; margin: .5em 1em; }
+.footer p:first-child { float: left; }
+.powered { font-size: 90%; }
+.powered a { text-decoration: none; }
+.navigation a { color: inherit; text-decoration: underline; margin: 0 .5em; }
+.navigation a:first-child { margin-left: 0; }
+.navigation a:last-child { text-decoration: none; color: inherit; }
+table .category-link { font-size: 160%; text-decoration: none; }
+table .category-link:hover { text-decoration: underline; }
+.isactive {}
+.left-menu {}
+.right-content {}
+.openld-sponsor-cell {}

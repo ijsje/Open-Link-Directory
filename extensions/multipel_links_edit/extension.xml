@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>multipel_links_edit</id>
+	<title>Multiple links edit</title>
+	<version>0.04</version>
+	<author>Anders Persson</author>
+	<description>This will make it possible to remove or accept multipel links.</description>
+	<hooks>
+		<hook id="admin_links_thead_tr_header">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/select_th.php');
+			]]>
+		</hook>
+		<hook id="admin_accept_links_thead_tr_header">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/select_th.php');
+			]]>
+		</hook>
+		<hook id="admin_browse_links_thead_tr_header">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/select_th.php');
+			]]>
+		</hook>
+		<hook id="admin_links_before_sql_if">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/form_al.php');
+			]]>
+		</hook>
+		<hook id="admin_browse_before_links_if">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/form_ab.php');
+			]]>
+		</hook>
+		<hook id="admin_accept_links_before_sql_if">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/form_aal.php');
+			]]>
+		</hook>
+		<hook id="admin_links_after_sql_if">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/alasi.php');
+			]]>
+		</hook>
+		<hook id="admin_accept_links_after_sql_if">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/aalasi.php');
+			]]>
+		</hook>
+		<hook id="admin_browse_after_sql_if">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/abasi.php');
+			]]>
+		</hook>
+		<hook id="admin_links_row_tbody_tr_header">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/al_row_header.php');
+			]]>
+		</hook>
+		<hook id="admin_accept_links_row_tbody_tr_header">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/al_row_header.php');
+			]]>
+		</hook>
+		<hook id="admin_browse_links_row_tbody_tr_header">
+			<![CDATA[
+				require ext_theme_include('multipel_links_edit', 'admin/al_row_header.php');
+			]]>
+		</hook>
+		<hook id="admin_links_after_sql_ops">
+			<![CDATA[
+				if(isset($_REQUEST['remove_selected_links']))
+				{
+					if(isset($_REQUEST['link']))
+					{
+						$query = array(
+							'DELETE' => 'links',
+							'WHERE' => 'id IN(' .implode(',', $_POST['link']). ')'
+						);
+						$db->query_build($query) or error('Cannot remove selected links.<br />SQL: '.$sql, __FILE__, __LINE__);
+					}
+				}
+			]]>
+		</hook>
+		<hook id="admin_accept_links_after_sql_ops">
+			<![CDATA[
+				if(isset($_REQUEST['remove_selected_links']))
+				{
+					if(isset($_REQUEST['link']))
+					{
+						$query = array(
+							'DELETE' => 'links',
+							'WHERE' => 'id IN(' .implode(',', $_POST['link']). ')'
+						);
+						$db->query_build($query) or error('Cannot remove selected links.' .$sql, __FILE__, __LINE__);
+					}
+				}
+				elseif(isset($_REQUEST['accept_selected_links']))
+				{
+					if(isset($_REQUEST['link']))
+					{
+						$query = array(
+							'UPDATE' => 'links',
+							'SET' => 'active=1',
+							'WHERE' => 'id IN(' .implode(',', $_POST['link']). ')'
+						);
+						$db->query_build($query) or error('Cannot accept selected links', __FILE__, __LINE__);
+					}
+				}
+			]]>
+		</hook>
+		<hook id="admin_browse_after_sql_ops">
+			<![CDATA[
+				if(isset($_REQUEST['remove_selected_links']))
+				{
+					if(isset($_REQUEST['link']))
+					{
+						$query = array(
+							'DELETE' => 'links',
+							'WHERE' => 'id IN('.implode(',', $_POST['link']).')'
+						);
+						$db->query_build($query) or error('Cannot remove selected links.', __FILE__, __LINE__);
+					}
+				}
+			]]>
+		</hook>
+	</hooks>
+</extension>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>voting</id>
+	<title>Voting</title>
+	<version>0.03</version>
+	<author>Anders Persson</author>
+	<description>Let visitors place a vote on each link</description>
+	<install>
+		<![CDATA[
+			//Creating table votes
+			$schema = array(
+				'FIELDS' => array(
+					'id' => array(
+						'datatype' => 'SERIAL',
+						'allow_null' => false
+					),
+					'link_id' => array(
+						'datatype' => 'INT(10) UNSIGNED',
+						'allow_null' => false,
+						'default' => '0'
+					),
+					'vote_value' => array(
+						'datatype' => 'TINYINT UNSIGNED',
+						'allow_null' => false,
+						'default' => '0'
+					),
+					'ip' => array(
+						'datatype' => 'VARCHAR(15)',
+						'allow_null' => false,
+						'default' => '""'
+					)
+				),
+				'PRIMARY KEY' => array('id')
+			);
+			$db->create_table('votes', $schema);
+		]]>
+	</install>
+	<uninstall>
+		<![CDATA[
+			$db->drop_table('votes');
+		]]>
+	</uninstall>
+	<hooks>
+		<hook id="header_head_footer">
+			<![CDATA[
+				ext_lang('voting');
+				if(isset($_GET['vote']))
+				{
+					$query = array(
+						'SELECT' => 'ip',
+						'FROM' => 'votes',
+						'WHERE' => 'ip="' .$db->escape($_SERVER['REMOTE_ADDR']). '" AND link_id=' .intval($_GET['link_id'])
+					);
+					$check_sql = $db->query_build($query) or error(__FILE__, __LINE__);
+					if($db->affected_rows($check_sql) == 0)
+					{
+						$query = array(
+							'INSERT' => 'link_id, ip, vote_value',
+							'INTO' => 'votes',
+							'VALUES' => intval($_GET['link_id']). ', "' .$db->escape($_SERVER['REMOTE_ADDR']). '", ' .intval($_GET['vote'])
+						);
+						$db->query_build($query) or error(__FILE__, __LINE__);
+						echo '<script language="JavaScript">alert("Your vote has been counted.");</script>';
+					}
+					else
+						echo '<script language="JavaScript">alert("Your have already voted on that link before.");</script>';
+				}
+			]]>
+		</hook>
+		<hook id="index_links_sql_limit">
+			<![CDATA[
+				/* $limit_query = array(
+					'SELECT' => 'votes.vote_value AS vote_value, links.type AS type, links.url AS url, links.title AS title, links.description AS description, links.date_submitted AS date_submitted',
+					'FROM' => 'links, votes',
+					'WHERE' => 'links.category_id=' .intval($req_id). ' AND links.payment_status<>"no"' .($settings['display_unaccepted_links'] == 'N' ? ' AND links.active=1' : ''). ' AND votes.link_id=links.id'
+				);
+				$limit_query['ORDER BY'] = 'votes.vote_value, links.type DESC, links.' .$settings['links_sorting_by']; */
+			]]>
+		</hook>
+		<hook id="link_row_footer">
+			<![CDATA[
+				$query = array(
+					'SELECT' => 'SUM(vote_value) AS total_vote, COUNT(vote_value) AS num_votes',
+					'FROM' => 'votes',
+					'WHERE' => 'link_id='.$links['id'],
+					'GROUP BY' => 'link_id'
+				);
+				$vote_query = $db->query_build($query) or error(__FILE__, __LINE__);
+				$vote_query = $db->fetch_row($vote_query);
+				
+				if($vote_query[1] == 0)
+					$rating = 0;
+				else
+					$rating = $vote_query[0]/$vote_query[1];
+				
+				require ext_theme_include('voting', 'vote_form.php');
+			]]>
+		</hook>
+	</hooks>
+</extension>

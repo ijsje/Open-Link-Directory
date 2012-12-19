@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>success_page</id>
+	<title>Success Page</title>
+	<version>0.01</version>
+	<author>Anders Persson</author>
+	<description>Displays another page with a success message each time a link is submitted or a category suggested instead of showing the same submit/suggest page with an included success message.</description>
+	<hooks>
+		<hook id="submit_before_page">
+			<![CDATA[
+				if($success_message == SUBMIT_SUCCESS)
+				{
+					$success_title = SUBMIT_A_LINK;
+					ext_theme_page('success_page', 'success_page.php');
+				}
+			]]>
+		</hook>
+		<hook id="suggest_category_before_page">
+			<![CDATA[
+				if(isset($_POST['title']) && $error->transform_error())
+				{
+					$success_title = SUGGEST_A_CATEGORY;
+					$success_message = SUBMIT_SUCCESS_CATEGORY;
+					ext_theme_page('success_page', 'success_page.php');
+				}
+			]]>
+		</hook>
+	</hooks>
+</extension>

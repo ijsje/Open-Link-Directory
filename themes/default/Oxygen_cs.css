@@ -1,0 +1,228 @@
+/*************************************************************
+A - BACKGROUND AND TEXT
+**************************************************************/
+
+/* A1 Page
+-------------------------------------------------------------*/
+
+html, body
+{
+	background-color: #fff
+}
+
+/* A2 General Background and Text
+-------------------------------------------------------------*/
+
+.openld-content, .openld-adcontent
+{
+	background-color: #f7f7f7;
+	color: #333
+}
+
+.openld-block .panel
+{
+	background-color: #f1f1f1;
+	color: #333
+}
+
+.openld-block th,
+.openld-adblock th
+{
+	background-color: #e8e8e8;
+	color: #333
+}
+
+.openld-form fieldset legend span,
+.openld-adform fieldset legend span
+{
+	background-color: #f7f7f7;
+	color:#666
+}
+
+.openld-form fieldset p span.input em
+{
+	color: #666;
+}
+
+/* A3 Logo and Description
+-------------------------------------------------------------*/
+
+h1#openldbb-title, #openldbb-description
+{
+	background-color: #DDE8F3;
+	color: #333;
+}
+
+
+/* A4 Main Navigation
+-------------------------------------------------------------*/
+
+#openldbb-navlinks .openld-content
+{
+	background-color: #0F5995;
+	color: #f1f1f1;
+}
+
+#openldbb-adnav .openld-adcontent
+{
+	background-color: #f1f1f1;
+	color: #333;
+}
+
+ /* A5 Main Headings
+-------------------------------------------------------------*/
+
+#openldbb-main h2, #openldbb-admain h2
+{
+	background-color: #1474C3;
+	color: #fff;
+}
+
+#openldbb-admain #openldbb-adnav h3
+{
+	background-color: #dedfdf;
+	color: #333;
+	}
+
+ /* A6 Name/Value Pairs and Admin Forms
+-------------------------------------------------------------*/
+
+.openld-content li.datafield, .openld-adcontent li.datafield,
+.openld-adform fieldset p
+{
+	background-color: #dedfdf;
+	color: #333
+}
+
+.openld-content li.datafield span, .openld-content li.datafield ul, .openld-content li.datafield div,
+.openld-adblock li.datafield span, .openld-adblock li.datafield ul, .openld-adblock li.datafield div,
+.openld-adform fieldset p span.adinput
+{
+	background: #f1f1f1;
+	color: #333
+}
+
+.openld-content .panel li.datafield span, .openld-content .panel li.datafield div,
+.openld-content .panel li.datafield ul
+{
+	background: #e8e8e8;
+	color: #333;
+}
+
+/*************************************************************
+B - BORDERS
+**************************************************************/
+
+/* B1 External Borders
+-------------------------------------------------------------*/
+
+.openld-block, .openld-block .post, .openld-adblock
+{
+	border-bottom-color: #f2f2f2
+}
+
+.openld-content,
+.openld-adcontent,
+.openld-block .post h3,
+#openldbb-title,
+#openldbb-description
+{
+	border-color: #ddd #ddd #bbb #ddd
+}
+
+/* B2 Main Headings
+-------------------------------------------------------------*/
+
+#openldbb-main h2, #openldbb-admain h2
+{
+	border-color: #004F90;
+}
+
+/* B3 Internal Borders (Tables, Posts, Fieldsets, Form Panels)
+-------------------------------------------------------------*/
+
+.openld-block table td,
+.openld-adblock table td,
+.openld-block .post h3 span,
+#adnav-standard li
+{
+	border-color: #C9D6E0;
+}
+
+.openld-block table th,
+.openld-adblock table th
+{
+	border-color: #e8e8e8;
+}
+
+.openld-block .panel,
+.openld-block .openld-content fieldset,
+.openld-adblock .openld-adcontent fieldset,
+.openld-form table
+{
+	border-color: #ccc #dedfdf #dedfdf #dedfdf
+}
+
+/*************************************************************
+C - LINKS
+**************************************************************/
+
+/* C1 Default
+-------------------------------------------------------------*/
+
+li.isactive a, li.isactive a:link, li.isactive a:visited
+{
+	color: #333
+}
+
+li.isactive
+{
+	color: #aaa
+}
+
+.openld-block a, .openld-block a:link, .openld-block a:visited,
+.openld-adblock a, .openld-adblock a:link, .openld-adblock a:visited,
+li.isactive li a, li.isactive li a:link, li.isactive li a:visited
+{
+	color: #00569C
+}
+
+
+.openld-block a:hover, .openld-block a:focus, .openld-block a:active,
+li.isactive a:hover, li.isactive a:focus, li.isactive a:active,
+li.isactive li a:hover, li.isactive li a:focus, li.isactive li a:active,
+.openld-adblock a:hover, .openld-adblock a:focus, .openld-adblock a:active
+{
+	color: #B42000;
+}
+
+
+/* C2 Main Menu and Headers
+-------------------------------------------------------------*/
+
+#openldbb-navlinks a, #openldbb-navlinks a:link, #openldbb-navlinks a:visited
+{
+	color: #eee;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.openld-block h2 a, .openld-block h2 a:link, .openld-block h2 a:visited
+{
+	color: #fff;
+	text-decoration: none
+}
+
+#openldbb-navlinks a:hover, #openldbb-navlinks a:active, #openldbb-navlinks a:focus,
+.openld-block h2 a:hover, .openld-block h2 a:active, .openld-block h2 a:focus
+{
+	color: #fff;
+	text-decoration: underline
+}
+
+
+/*************************************************************
+D - POST STATUS ICONS
+**************************************************************/
+
+div.icon {border-color: #E6E6E6 #DEDEDE #DADADA #E2E2E2}

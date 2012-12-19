@@ -1,0 +1,14 @@
+/* garden color scheme: http://colorschemedesigner.com/#2R51Tw0w0w0w0 */
+#body .body a { color: #015C65; }
+#body .body a:hover { color: #1E6D74; }
+#body .header { background-color: #C6F66F; }
+#body .header h1 { background: transparent url('logo.png') no-repeat 40px 15px; text-indent: -9999px; height: 50px; }
+#body .menublock { background-color: #639A00; color: inherit; }
+#body .menublock a { color: #000; }
+#body .menublock a:hover { background-color: #82B22C; color: #030; }
+#body .menublock .isactive a { background-color: #98ED00; color: #030; } 
+#body .footer { background-color: #008110; color: #00C618; }
+#body .footer a { color: #39E24D; }
+#body .footer a:hover { color: #66E275; }
+/* WHITE FLORETTE: 2740 */
+#body .category-link:before { content: "\02698 \00a0"; }

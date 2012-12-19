@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>link_details</id>
+	<title>Link Details</title>
+	<version>0.03</version>
+	<author>Anders Persson</author>
+	<description>Display an extra details page for every link</description>
+	<hooks>
+		<hook id='link_row_footer'>
+			<![CDATA[
+				require ext_theme_include('link_details', 'detail_link.php');
+			]]>
+		</hook>
+		<hook id='index_default_page'>
+			<![CDATA[
+				ext_lang('link_details');
+				if(isset($_GET['details']))
+				{
+					$query = array(
+						'SELECT' => 'id, title, description, name, date_submitted, category_id',
+						'FROM' => 'links',
+						'WHERE' => 'id=' .intval($_GET['details']). OPENLD_IF_ACTIVE_LINKS
+					);
+					$detail_sql = $db->query_build($query) or error(__FILE__, __LINE__);
+	
+					if($db->num_rows($detail_sql) != 0)
+					{
+						$sql_objects = $db->fetch_row($detail_sql);
+
+						$query = array(
+							'SELECT' => 'title',
+							'FROM' => 'categories',
+							'WHERE' => 'id=' .$sql_objects[5]
+						);
+						$sql_category_name = $db->query_build($query) or error(__FILE__, __LINE__);
+						$category_name = $db->fetch_row($sql_category_name);
+						$category_name = ($db->num_rows($sql_category_name) == 0) ? "root" : $category_name[0];
+	
+						ext_theme_page('link_details', 'details.php');
+					}
+					else
+					{
+						$query = array(
+							'SELECT' => 'id, title, description, name, date_submitted, category_id',
+							'WHERE' => 'id=' .intval($_GET['details'])
+						);
+						$check_detail_sql = $db->query_build($query) or error(__FILE__, __LINE__);
+						if($db->num_rows($check_detail_sql) == 1)
+							echo "This link isn't activated yet.";
+						elseif($db->num_rows($check_detail_sql) == 0)
+							echo "There's no link id that matched with " .$_GET['details'];
+					}
+				}
+			]]>
+		</hook>
+	</hooks>
+</extension>

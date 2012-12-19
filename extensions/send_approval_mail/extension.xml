@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>send_approval_mail</id>
+	<title>Send Approval Mail</title>
+	<version>0.02</version>
+	<author>Anders Persson</author>
+	<description>Sends a mail to the submitter everytime you approve a link</description>
+	<hooks>
+		<hook id="admin_functions_accept_link_after_sql">
+			<![CDATA[
+				global $settings;
+
+				//get sql details
+				$query = array(
+					'SELECT' => 'title, url, description, name, email',
+					'FROM' => 'links',
+					'WHERE' => 'id=' .intval($id)
+				);
+				$mail_sql = $db->query_build($query) or error(__FILE__, __LINE__);
+				$mail_sql = $db->fetch_row($mail_sql);
+
+				//make the message string
+				$mail_message='The following link submitted by ' .$mail_sql[3]. ' have been approved:\n\nTitle:' .$mail_sql[0]. '\nURL:' .$mail_sql[1]. ')\nDescription' .$mail_sql[2]. '\n\nFeel free to submit another one at: ' .$settings['domain'];
+
+				//send the mail
+				mail($mail_sql[4], $mail_sql[0]. ' has been approved', $mail_message, 'From: ' .$settings['email']);
+			]]>
+		</hook>
+	</hooks>
+</extension>

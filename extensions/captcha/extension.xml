@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>captcha</id>
+	<title>Captcha</title>
+	<version>0.01</version>
+	<author>Anders Persson</author>
+	<description>Requires a captcha code for submitting links and suggesting categories</description>
+	<hooks>
+		<hook id="submit_table_fields">
+			<![CDATA[
+				require ext_theme_include('captcha', 'submit_table_fields.php');
+			]]>
+		</hook>
+		<hook id="suggest_category_footer">
+			<![CDATA[
+				require ext_theme_include('captcha', 'suggest_category_footer.php');
+			]]>
+		</hook>
+
+		<hook id="submit_input_control">
+			<![CDATA[
+				//captcha check
+				if($_SESSION['captcha'] !== openld_hash($_POST['captcha']))
+					$error->set_warning('captcha_warning', 'Wrong captcha inserted');
+			]]>
+		</hook>
+		<hook id="suggest_category_input_control">
+			<![CDATA[
+				//captcha check
+				if($_SESSION['captcha'] !== openld_hash($_POST['captcha']))
+					$error->set_warning('captcha_warning', 'Wrong captcha inserted');
+			]]>
+		</hook>
+
+		<hook id="submit_before_payment_check">
+			<![CDATA[
+				session_start();
+			]]>
+		</hook>
+		<hook id="suggest_category_before_input_check">
+			<![CDATA[
+				session_start();
+			]]>
+		</hook>
+	</hooks>
+</extension>

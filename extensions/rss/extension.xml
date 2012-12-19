@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>rss</id>
+	<title>RSS feed</title>
+	<version>1.00</version>
+	<author>Anders Persson</author>
+	<description>Display an rss feed with your latest links.</description>
+	<hooks>
+		<hook id="navigation_menu_footer">
+			<![CDATA[
+				echo '<li><span><a href="' .$settings['domain']. '/index.php?rss=' .(isset($_REQUEST['id']) ? $_REQUEST['id'] : '0'). '">RSS</a></span></li>';
+			]]>
+		</hook>
+		<hook id="header_top_hook">
+			<![CDATA[
+				if(isset($_GET['rss']))
+				{
+					$query = array(
+						'SELECT' => 'title, description, url',
+						'FROM' => 'links',
+						'WHERE' => 'payment_status<>"no"' .OPENLD_IF_ACTIVE_LINKS,
+						'ORDER BY' => 'id DESC',
+						'LIMIT' => '0, 20'
+					);
+
+					if($_GET['rss'] != 0)
+					{
+						//pick only the links within the category
+						$query['WHERE'] .= ' AND category_id=' .intval($_GET['rss']);
+
+						//display the category name
+						$fetch_category_row = $db->fetch_row($db->query_build(array(
+							'SELECT' => 'title, description',
+							'FROM' => 'categories',
+							'WHERE' => 'id=' .intval($_GET['rss'])
+						))) or error(__FILE__, __LINE__);
+						$extra_title = ' - category: ' .$fetch_category_row[0];
+					}
+					else
+						$extra_title = '';
+
+					$link_result = $db->query_build($query) or error("can't dig links", __FILE__, __LINE__);
+
+					header("Content-type: text/xml\n\n");
+					require OPENLD_ROOT. 'extensions/rss/rss_xml.php';
+					exit();
+				}
+			]]>
+		</hook>
+	</hooks>
+</extension>

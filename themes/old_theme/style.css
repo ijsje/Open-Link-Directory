@@ -1,0 +1,511 @@
+/*************************************************************
+A  SETUP
+   A1 = Import the colour scheme
+   A2 = Default Settings
+   A3 = Hidden Items
+   A4 = Float Clearing
+
+B  TEXT
+
+C  LAYOUT DEFAULTS
+   C1 = Basic Page Setup
+   C2 = Vertical Spacing
+   C3 = External Borders
+   C4 = Main Headings (not logo)
+   C5 = Main heading (Logo and description)
+   C6 = Common Elements Padding
+
+D  TABLES
+   D1 = Table Layout
+   D2 = Post Indicators
+
+E  FORMS
+   E1 = Form Layout, Fieldsets, Submit Buttons
+   E2 = Form Fields
+
+F  INFORMATION BOXES, PANELS AND LISTS
+   F1 = Information Panels
+   F2 = Name+Value Pairs (class="datafield")
+
+G  TOPICS AND POSTS
+   G1 = Post Layout
+
+H  OPENLD COMMON ELEMENTS
+   H1 = Directory Main Navigation
+   H2 = Quick Jump and About OpenLD
+   H3 = Moderator Controls
+   H4 = Foot
+
+I OPENLD ONLY ELEMENTS
+   I1 = Link Cells
+
+
+/*************************************************************
+A - SETUP
+**************************************************************/
+
+/* A1 = Import the colour scheme
+-------------------------------------------------------------*/
+
+@import url(Oxygen_cs.css);
+
+/* A2 = Defaults Settings
+-------------------------------------------------------------*/
+
+html, body, .openld-block ul, .openld-block ol, .openld-block li, .openld-block p, .openld-block dl,
+.openld-block dd, .openld-page h1, .openld-block h2, .openld-block h3, .openld-block h4, .openld-block h5,
+.openld-block h6, .openld-page form, .openld-block fieldset{
+	margin: 0;
+	padding: 0;
+}
+
+.openld-block img, .openld-block fieldset
+{
+	border: none;
+}
+
+.openld-form input[type='radio'], .openld-form input[type='checkbox']
+{
+	margin-right: 0.4em;
+}
+
+.openld-block *[class='checkfield'] *
+{
+	vertical-align: middle;
+}
+
+.openld-block table
+{
+	width: 100%;
+	table-layout: fixed
+}
+
+.openld-block .panel ul
+{
+	padding-left: 1.5em;
+	list-style: square;
+}
+
+.openld-block .panel dd
+{
+	padding: 0.6em 1em 1.5em 1em;
+}
+
+/* A3 = Hidden Items
+-------------------------------------------------------------*/
+
+#openldbb-navlinks h2
+{
+	font-size: 0;
+	line-height: 0;
+	height: 0;
+	left: -9999px;
+	overflow: hidden;
+	position:absolute;
+}
+
+/* A4 = Float Clearing
+-------------------------------------------------------------*/
+
+.openld-page:after,
+.openld-block h2:after,
+.openld-content:after,
+.openld-content li.datafield:after,
+.openld-form .openld-content:after,
+.openld-content fieldset:after
+{
+	clear: both;
+	content: ".";
+	display: block;
+	font-size: 0;
+	height: 0;
+	line-height: 0.0;
+	overflow:hidden;
+	visibility: hidden;
+}
+
+
+/*************************************************************
+B - TEXT
+**************************************************************/
+
+/* B1 = Text Defaults
+-------------------------------------------------------------*/
+
+.openld-page
+{
+	font: normal 68.75% verdana, arial, helvetica, sans-serif;
+}
+
+.openld-page h1, .openld-block h2,.openld-block h3,.openld-block h4,.openld-block h5,
+.openld-block h6, .openld-block pre,.openld-block code, .openld-block td, .openld-block th,
+.openld-block input, .openld-block textarea, .openld-block select,
+.openld-block legend
+{
+	font: normal 1em verdana, arial, helvetica, sans-serif;
+}
+
+h1#openldbb-title span
+{
+	font-size: 1.5em;
+}
+
+.openld-block h2 span, .openld-block .panel h3 span, .openld-block legend span
+{
+	font-size: 1.1em;
+}
+
+.openld-block p.crumbs span
+{
+	font-weight: bold;
+}
+
+
+/*************************************************************
+C - LAYOUT DEFAULTS
+**************************************************************/
+
+/* C1 = Basic Page Setup
+-------------------------------------------------------------*/
+
+.openld-page
+{
+	margin: 15px 30px 15px 30px;
+	position: relative;
+}
+
+#openldbb-isolate
+{
+	float: left;
+	width: 100%;
+}
+
+
+/* C2 = Vertical Spacing
+-------------------------------------------------------------*/
+
+.openld-block .post
+{
+	margin-bottom: 0.4em;
+}
+
+.openld-block
+{
+	margin-bottom: 1em;
+}
+
+
+/* C3 = External Borders
+-------------------------------------------------------------*/
+
+.openld-block, .openld-block .post
+{
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+}
+
+.openld-content
+{
+	border-style: solid;
+	border-width: 1px;
+}
+
+.openld-block .post .openld-content
+{
+	border-top: none;
+}
+
+
+/* C4 = Main Headings (not logo)
+-------------------------------------------------------------*/
+
+#openldbb-main h2
+{
+	border-style: none solid solid none;
+	border-width: 0 1px 1px 0;
+	margin: 0;
+	padding: 0.5em 1em;
+}
+
+/* C5 = Main heading (Logo and description)
+-------------------------------------------------------------*/
+
+h1#openldbb-title
+{
+	padding: 1em 1em 0 1em;
+	border-style: solid solid none solid;
+	border-width: 1px 1px 0 1px;
+	margin: 0;
+}
+
+div#openldbb-description
+{
+	padding: 0.2em 1em 0.8em 1em;
+	border-style: none solid;
+	border-width: 0 1px;
+	margin: 0;
+}
+
+/* C6 = Common Elements Padding
+-------------------------------------------------------------*/
+
+.openld-common .openld-block .openld-content
+{
+	padding: 0.6em 1em;
+	margin-bottom: 1em;
+}
+
+
+/*************************************************************
+D - TABLES
+**************************************************************/
+
+/* D1 = Table Layout
+-------------------------------------------------------------*/
+
+.openld-block .tcl
+{
+	overflow: hidden;
+	text-align: left;
+	border-left-style: none;
+	border-left-width: 0;
+}
+
+.openld-block  td
+{
+	border-style: solid none none solid;
+	border-width: 1px 0 0 1px;
+	padding: 0.8em 1em;
+}
+
+.openld-block th
+{
+	border-style: none none none solid;
+	border-width: 0 0 0 1px;
+	padding: 0.4em 1em 0.4em 1em;
+}
+
+/* D2 = Post Indicators
+-------------------------------------------------------------*/
+
+.openld-block tbody.hasicon td.tcl
+{
+	padding-left: 3.2em
+}
+
+.openld-block table div.icon
+{
+	border-style: solid;
+	border-width: 0.6em;
+	height: 0;
+	line-height: 0.0;
+	margin-top: 0.1em;
+	width: 0;
+	font-size: 1.05em;
+	position: absolute;
+	margin-left: -2.2em;
+}
+
+/*************************************************************
+E - FORMS (INCLUDING FORM LIKE PAGES)
+**************************************************************/
+
+/* E1 = Form Layout, Fieldsets, Submit Buttons
+-------------------------------------------------------------*/
+
+.openld-form .openld-content
+{
+	padding: 2em 2.5em 1em 2.5em;
+}
+
+.openld-form .formpanel
+{
+	padding-bottom: 1.5em;
+}
+
+.openld-form fieldset
+{
+	border-style: solid;
+	border-width: 1px;
+	padding: 0 18px 1.2em 18px;
+}
+
+.openld-form fieldset legend
+{
+	margin: 0 0 0 11px;
+	padding: 1px 0;
+}
+
+.openld-form fieldset legend span
+{
+	margin: 0 0 0 -15px;
+	padding: 0 5px;
+}
+
+.openld-form .formsubmit
+{
+	margin:-0.5em 0 0 1.6em;
+	position: relative;
+}
+
+.openld-form .formsubmit
+{
+	vertical-align: middle;
+	margin-right: 0.5em;
+}
+
+.openld-form table
+{
+	border-style: solid;
+	border-width: 1px;
+	margin: 1.2em 0;
+}
+
+
+/*************************************************************
+F - INFORMATION BOXES, PANELS AND LISTS
+**************************************************************/
+
+/* F1 = Information Panels
+-------------------------------------------------------------*/
+
+.openld-content .panel
+{
+	border-style: solid;
+	border-width: 1px;
+	margin: 0 0 1.5em 0;
+	padding: 1.2em 21px 1.2em 21px;
+}
+
+.openld-form .panel h3
+{
+	padding-bottom: 1em;
+}
+
+.openld-form .panel h3 span
+{
+	display: block;
+	padding-bottom: 0.5em;
+	border-bottom-style:  dashed;
+	border-bottom-width: 1px;
+}
+
+.openld-form .panel p
+{
+	padding-bottom: 1em;
+}
+
+
+/*************************************************************
+G - TOPICS AND POSTS
+**************************************************************/
+
+ /* G1 = Post Layout
+-------------------------------------------------------------*/
+
+.openld-block .post h3
+{
+	border-style: solid solid none solid;
+	border-width: 1px 1px 0 1px;
+	margin: 0;
+	padding-left: 18em;
+}
+
+.openld-block .post h3 span
+{
+	padding: 0.5em 1em 0.7em 1em;
+	display: block;
+	border-left-style: solid;
+	border-left-width: 1px;
+}
+
+.openld-block .post h3 strong
+{
+	float: right;
+	width: 5em;
+	text-align: right;
+	font-weight: normal;
+}
+
+/*************************************************************
+H - OPENLD COMMON ELEMENTS
+**************************************************************/
+
+/* H1 = Directory Main Navigation
+-------------------------------------------------------------*/
+
+#openldbb-navlinks .openld-content
+{
+	border: none;
+}
+
+#openldbb-navlinks li
+{
+	display: inline;
+	font-size: 1.1em;
+}
+
+#openldbb-navlinks li a
+{
+	padding: 0 0.7em 0 0;
+}
+
+/* H2 = Breadcrumbs
+-------------------------------------------------------------*/
+
+.openld-content p.crumbs *
+{
+	white-space: nowrap;
+}
+
+/* H3 = Quick Jump and About OpenLD
+-------------------------------------------------------------*/
+
+#openldbb-about .openld-content
+{
+	text-align: right;
+	padding-bottom: 1em;
+}
+
+/* H4 = Foot
+-------------------------------------------------------------*/
+
+.openld-mainfoot
+{
+	padding: 0.8em 1.1em 0.8em 1.1em;
+}
+
+/*************************************************************
+I OPENLD ONLY ELEMENTS
+**************************************************************/
+
+/* I1 = Link Cells
+-------------------------------------------------------------*/
+
+.openld-sponsor-cell
+{
+	background-color: #dddddd;
+}
+
+
+ /* A2 Text setup
+-------------------------------------------------------------*/
+
+
+/* bug-fix for Safari&IE and other lame browsers */
+textarea
+{
+	width:100%;
+}
+/* end bug-fix */
+
+
+/* 4 Basic layout and admin menu
+-------------------------------------------------------------*/
+
+
+#openldbb-navlinks
+{
+	margin-bottom: 0;
+	border-bottom: none;
+}

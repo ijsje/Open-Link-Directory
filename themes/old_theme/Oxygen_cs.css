@@ -1,0 +1,173 @@
+/*************************************************************
+A - BACKGROUND AND TEXT
+**************************************************************/
+
+/* A1 Page
+-------------------------------------------------------------*/
+
+html, body
+{
+	background-color: #fff
+}
+
+/* A2 General Background and Text
+-------------------------------------------------------------*/
+
+.openld-content
+{
+	background-color: #f7f7f7;
+	color: #333
+}
+
+.openld-block .panel
+{
+	background-color: #f1f1f1;
+	color: #333
+}
+
+.openld-block th
+{
+	background-color: #e8e8e8;
+	color: #333
+}
+
+.openld-form fieldset legend span
+{
+	background-color: #f7f7f7;
+	color:#666
+}
+
+span.input em
+{
+	color: #666;
+}
+
+/* A3 Logo and Description
+-------------------------------------------------------------*/
+
+h1#openldbb-title, #openldbb-description
+{
+	background-color: #DDE8F3;
+	color: #333;
+}
+
+
+/* A4 Main Navigation
+-------------------------------------------------------------*/
+
+#openldbb-navlinks .openld-content
+{
+	background-color: #0F5995;
+	color: #f1f1f1;
+}
+
+/* A5 Main Headings
+-------------------------------------------------------------*/
+
+#openldbb-main h2
+{
+	background-color: #1474C3;
+	color: #fff;
+}
+
+
+/*************************************************************
+B - BORDERS
+**************************************************************/
+
+/* B1 External Borders
+-------------------------------------------------------------*/
+
+.openld-block, .openld-block .post
+{
+	border-bottom-color: #f2f2f2
+}
+
+.openld-content,
+.openld-block .post h3,
+#openldbb-title,
+#openldbb-description
+{
+	border-color: #ddd #ddd #bbb #ddd
+}
+
+/* B2 Main Headings
+-------------------------------------------------------------*/
+
+#openldbb-main h2
+{
+	border-color: #004F90;
+}
+
+/* B3 Internal Borders (Tables, Posts, Fieldsets, Form Panels)
+-------------------------------------------------------------*/
+
+.openld-block table td,
+.openld-block .post h3 span
+{
+	border-color: #C9D6E0;
+}
+
+.openld-block table th
+{
+	border-color: #e8e8e8;
+}
+
+.openld-block .panel,
+.openld-block .openld-content fieldset,
+.openld-form table
+{
+	border-color: #ccc #dedfdf #dedfdf #dedfdf
+}
+
+/*************************************************************
+C - LINKS
+**************************************************************/
+
+/* C1 Default
+-------------------------------------------------------------*/
+
+.openld-block a, .openld-block a:link, .openld-block a:visited
+{
+	color: #00569C
+}
+
+
+.openld-block a:hover, .openld-block a:focus, .openld-block a:active
+{
+	color: #B42000;
+}
+
+
+/* C2 Main Menu and Headers
+-------------------------------------------------------------*/
+
+#openldbb-navlinks a, #openldbb-navlinks a:link, #openldbb-navlinks a:visited
+{
+	color: #eee;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.openld-block h2 a, .openld-block h2 a:link, .openld-block h2 a:visited
+{
+	color: #fff;
+	text-decoration: none
+}
+
+#openldbb-navlinks a:hover, #openldbb-navlinks a:active, #openldbb-navlinks a:focus,
+.openld-block h2 a:hover, .openld-block h2 a:active, .openld-block h2 a:focus
+{
+	color: #fff;
+	text-decoration: underline
+}
+
+
+/*************************************************************
+D - POST STATUS ICONS
+**************************************************************/
+
+div.icon
+{
+	border-color: #E6E6E6 #DEDEDE #DADADA #E2E2E2
+}

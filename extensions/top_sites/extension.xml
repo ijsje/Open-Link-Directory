@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>top_sites</id>
+	<title>Top Sites</title>
+	<version>0.8</version>
+	<author>The HungryCoder (http://hungrycoder.xenexbd.com)</author>
+	<description>Increase the hits when any link is clicked. Also show top sites i.e. sites with max hits</description>
+	<install>
+		<![CDATA[
+			$db->add_field('links', 'hits', 'INT(10)', false, 0);
+		]]>
+	</install>
+	<uninstall>
+		<![CDATA[
+			if($settings['links_sorting_by']  == 'hits' || $settings['links_sorting_by']  == 'hits DESC')
+			{
+				$query = array(
+					'UPDATE' => 'settings',
+					'SET' => 'value="title"',
+					'WHERE' => 'title="links_sorting_by"'
+				);
+				$db->query_build($query) or error(__FILE__, __LINE__);
+			}
+			$db->drop_field('links', 'hits');
+			generate_settings_cache();
+		]]>
+	</uninstall>
+	<hooks>
+		<hook id='admin_header_footer'>
+			<![CDATA[
+				ext_lang('top_sites');
+			]]>
+		</hook>
+		<hook id='link_row_header'>
+			<![CDATA[
+				$links['url'] = $settings['domain']. "/index.php?out=". $links['id'];
+			]]>
+		</hook>
+		<hook id='link_row_footer'>
+			<![CDATA[
+				require ext_theme_include('top_sites', 'hits_display.php');
+			]]>
+		</hook>
+		<hook id='index_default_page'>
+			<![CDATA[
+				if(isset($_GET['display']) && $_GET['display']=='topsites')
+					$page = '../../extensions/top_sites/topsites.php';
+				elseif(isset($_GET['out']))
+				{
+					//Update hits field
+					$query = array(
+						'UPDATE' => 'links',
+						'SET' => 'hits=hits+1',
+						'WHERE'	=> 'id='.intval($_GET['out'])
+					);
+					$db->query_build($query) or error(__FILE__, __LINE__);
+
+					//Get url
+					$query = array(
+						'SELECT' => 'url',
+						'FROM' => 'links',
+						'WHERE'	=> 'id='.intval($_GET['out'])
+					);
+					$query = $db->query_build($query) or error(__FILE__, __LINE__);
+					$url = $db->fetch_row($query);
+
+					header("Location: ".$url[0]);
+				}
+			]]>
+		</hook>
+		<hook id="navigation_menu_footer">
+			<![CDATA[
+				ext_lang('top_sites');
+				require ext_theme_include('top_sites', 'navigation_menu_link.php');
+			]]>
+		</hook>
+		<hook id="links_sort_options_footer">
+			<![CDATA[
+				require ext_theme_include('top_sites', 'admin/extra_link_sort_options.php');
+			]]>
+		</hook>
+	</hooks>
+</extension>

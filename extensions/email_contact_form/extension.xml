@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>email_contact_form</id>
+	<title>Email Contact Form</title>
+	<version>0.02</version>
+	<author>Anders Persson</author>
+	<description>Adds a contact page including a captcha where people contact you by email. Your email will not be displayed in the html source. Works with OpenLD 1.1.2 or above.</description>
+	<hooks>
+		<hook id="header_top_hook">
+			<![CDATA[
+				if(isset($_GET['display']) && $_GET['display']=='contact')
+					session_start();
+				ext_lang('email_contact_form');
+			]]>
+		</hook>
+		<hook id="index_default_page">
+			<![CDATA[
+				if(isset($_GET['display']) && $_GET['display']=='contact')
+					ext_theme_page('email_contact_form', 'contact.php');
+			]]>
+		</hook>
+		<hook id="navigation_menu_footer">
+			<![CDATA[
+				require ext_theme_include('email_contact_form', 'contact_navigation_menu_link.php');
+			]]>
+		</hook>
+	</hooks>
+</extension>

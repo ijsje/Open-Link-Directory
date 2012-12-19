@@ -1,0 +1,61 @@
+Features
+-Language by preference
+-PunBB 1.3 as default design
+-Link Directory
+-Powerful administation of the link directory
+-Ban IPs
+-Censor Words
+-Script Environment Information
+-Plugins(you can make your own plugin in the admin section)
+-SE friendly URL layers
+-Extensions(Scripts that can be used within OpenLD)
+-Paypal payments
+-Editing themes online
+-Editing extensions online
+
+How to install?
+1. Upload the script to a webserver
+2. Print in the scripts path + "/install" in a web browser
+3. Follow the instructions
+
+How to edit the settings?
+1. Login to the admin section
+2. Click on Options at the sidebar
+
+How to edit themes online?
+1. Login to the admin section
+2. Click on Themes at the sidebar
+3. All available themes are listed, at each row there is an 'Edit' link. Press that.
+
+How to edit extensions online?
+1. Login to the admin section
+2. Click on Themes at the sidebar
+3. All extensions are sorted in 2 tables, the first one for available extensions that has
+to be installed in order to take effect. The second one is for all extensions that is currently installed.
+3. Each extension row has 4 links, one for details, two for editing and one for either install or uninstall
+(depending on which table they belong to). By clicking 'details', you can read the properties of the extension,
+such as the description etc. You can install/uninstall from the detail page or directly from Admin->Extensions,
+by clicking the install/uninstall link at the last column.
+4. To edit the extension, you have two choices, either you click 'simple' or 'free'. The difference between these
+two is that 'simple' separates the extension properties and the actuall hook-code, while free loads the whole
+extension into a textarea.
+5. After saving the code, the extension will be both uninstalled and installed if it's installed, in order to
+update the database. This process happens in background, so you wont notice it.
+
+How to use Search engine friendly urls?
+1. Login to the admin section
+2. Click on Options at the sidebar
+3. At the option "Rewrite Layer", choose anything but off.
+4. Press save.
+
+Has OpenLD support for mod_rewrite?
+-Yes, see previous question for more information.
+
+How do I report bugs? (http://sourceforge.net/tracker2/?group_id=181014&atid=895496)
+1. Go to http://sourceforge.net/projects/openld/
+2. Click on "Bugs" under the "Tracker" menu
+3. Click on "Submit New"
+
+
+Where can I get further support?
+-At http://sourceforge.net/tracker2/?group_id=181014&atid=895497

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+    <id>display_parent_category_in_rows</id>
+    <title>Display parent category in rows</title>
+    <version>0.02</version>
+    <author>Anders Persson</author>
+    <description>Display parent category in category/link rows in Admin->Accept_Links, Admin->Accept_Categories, Admin->Links and Admin->Categories</description>
+    <hooks>
+        <hook id="admin_accept_categories_suggested_cell_footer">
+            <![CDATA[
+                require ext_theme_include('display_parent_category_in_rows', 'admin/link_parent.php');
+            ]]>
+        </hook>
+        <hook id="admin_accept_links_cell_footer">
+            <![CDATA[
+                require ext_theme_include('display_parent_category_in_rows', 'admin/category_parent.php');
+            ]]>
+        </hook>
+        <hook id="admin_links_row_footer">
+            <![CDATA[
+                require ext_theme_include('display_parent_category_in_rows', 'admin/category_parent.php');
+            ]]>
+        </hook>
+        <hook id="admin_categories_list_footer">
+            <![CDATA[
+                require ext_theme_include('display_parent_category_in_rows', 'admin/link_parent.php');
+            ]]>
+        </hook>
+    </hooks>
+</extension>

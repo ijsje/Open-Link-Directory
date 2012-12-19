@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>link_comments</id>
+	<title>Link Comments</title>
+	<version>1.0</version>
+	<author>Anders Persson</author>
+	<description>Enable people to comment links and display a comment page.</description>
+	<install>
+		<![CDATA[
+			//Creating the comments table
+			$schema = array(
+				'FIELDS' => array(
+					'id' => array(
+						'datatype' => 'SERIAL',
+						'allow_null' => false
+					),
+					'link_id' => array(
+						'datatype' => 'INT(10) UNSIGNED',
+						'allow_null' => false
+					),
+					'title' => array(
+						'datatype' => 'VARCHAR(255)',
+						'allow_null' => false,
+						'default' => '""'
+					),
+					'description' => array(
+						'datatype' => 'TEXT',
+						'allow_null' => true
+					),
+					'name' => array(
+						'datatype' => 'VARCHAR(100)',
+						'allow_null' => false,
+						'default' => '""'
+					),
+					'date_submitted' => array(
+						'datatype' => 'TIMESTAMP',
+						'allow_null' => false,
+						'default' => 'CURRENT_TIMESTAMP'
+					),
+					'ip' => array(
+						'datatype' => 'VARCHAR(15)',
+						'allow_null' => false,
+						'default' => '""'
+					),
+					'active' => array(
+						'datatype' => 'TINYINT(1) UNSIGNED',
+						'allow_null' => false,
+						'default' => '0'
+					)
+				),
+				'PRIMARY KEY' => array('id')
+			);
+			$db->create_table('comments', $schema);
+
+
+			//Creating the votes table
+			$schema = array(
+				'FIELDS' => array(
+					'id' => array(
+						'datatype' => 'SERIAL',
+						'allow_null' => false
+					),
+					'comment_id' => array(
+						'datatype' => 'INT(10) UNSIGNED',
+						'allow_null' => false,
+						'default' => '0'
+					),
+					'rating' => array(
+						'datatype' => 'TINYINT(2)',
+						'allow_null' => false,
+						'default' => '0'
+					),
+					'ip' => array(
+						'datatype' => 'VARCHAR(15)',
+						'allow_null' => false,
+						'default' => '""'
+					),
+				),
+				'PRIMARY KEY' => array('id')
+			);
+			$db->create_table('comments_votes', $schema);
+
+
+			//set comment settings values
+			$config = array(
+				'allow_comments' => 'Y',
+				'use_comment_titles' => 'N',
+				'use_comment_rating' => 'N',
+				'display_unaccepted_comments' => 'N',
+				'use_antispam' => 'Y',
+				'links_within_comments' => 'N',
+				'max_comment_description' => '1000',
+				'comments_per_page' => '20',
+				'comments_sorted_by' => 'id'
+			);
+			while (list($conf_name, $conf_value) = @each($config))
+			{
+				$query = array(
+					'INSERT' => 'title, value',
+					'INTO' => 'settings',
+					'VALUES' => '"' .$conf_name. '","' .$conf_value. '"'
+				);
+				$db->query_build($query);
+			}
+
+
+			//keep the settings cache update immidialety
+			generate_settings_cache();
+		]]>
+	</install>
+	<uninstall>
+		<![CDATA[
+			//drop all tables that have been installed
+			$db->drop_table('comments');
+			$db->drop_table('comments_votes');
+
+
+			//remove comment settings values
+			$config = array(
+				'title="allow_comments"',
+				'title="use_comment_titles"',
+				'title="use_comment_rating"',
+				'title="display_unaccepted_comments"',
+				'title="use_antispam"',
+				'title="links_within_comments"',
+				'title="max_comment_description"',
+				'title="comments_per_page"',
+				'title="comments_sorted_by"'
+			);
+			while (list($conf_name, $conf_value) = @each($config))
+			{
+				$query = array(
+					'DELETE' => 'settings',
+					'WHERE' => $conf_value
+				);
+				$db->query_build($query);
+			}
+
+
+			//keep the settings cache update immidialety
+			generate_settings_cache();
+		]]>
+	</uninstall>
+	<hooks>
+		<hook id="header_top_hook">
+			<![CDATA[
+				if(isset($_REQUEST['comments']))
+					session_start();
+				ext_lang('link_comments');
+			]]>
+		</hook>
+		<hook id="admin_header_footer">
+			<![CDATA[
+				ext_lang('link_comments');
+			]]>
+		</hook>
+		<hook id="link_row_footer">
+			<![CDATA[
+				require ext_theme_include('link_comments', 'comments_link.php');
+			]]>
+		</hook>
+		<hook id="index_default_page">
+			<![CDATA[
+				if(isset($_GET['comments']))
+					$page = '../../extensions/link_comments/index.php';
+			]]>
+		</hook>
+		<hook id="admin_menu_directory_footer">
+			<![CDATA[
+				require ext_theme_include('link_comments', 'admin/admin_menu_link.php');
+			]]>
+		</hook>
+		<hook id="admin_options_footer">
+			<![CDATA[
+				require ext_theme_include('link_comments', 'admin/admin_options.php');
+			]]>
+		</hook>
+		<hook id="admin_options_check">
+			<![CDATA[
+				$_POST['allow_comments'] = isset($_POST['allow_comments']) ? 'Y' : 'N';
+				$_POST['use_comment_titles'] = isset($_POST['use_comment_titles']) ? 'Y'	: 'N';
+				$_POST['display_unaccepted_comments'] = isset($_POST['display_unaccepted_comments']) ? 'Y' : 'N';
+				$_POST['use_antispam'] = isset($_POST['use_antispam']) ? 'Y' : 'N';
+				$_POST['links_within_comments'] = isset($_POST['links_within_comments']) ? 'Y' : 'N';
+				
+				//$error->numeric_control('use_comment_rating_warning', check_if_null($_POST['use_comment_rating']), 'Only numerical values is accepted');
+				$error->numeric_control('max_comment_description_warning', check_if_null($_POST['max_comment_description']), 'Only numerical values is accepted');
+				$error->numeric_control('comments_per_page_warning', check_if_null($_POST['comments_per_page']), 'Only numerical values is accepted');
+				//error for categories_sorting_by is missing
+			]]>
+		</hook>
+		<hook id="admin_options_while_update">
+			<![CDATA[
+				$config['allow_comments'] = $db->escape($_POST['allow_comments']);
+				$config['use_comment_titles'] = $db->escape($_POST['use_comment_titles']);
+				$config['use_comment_rating'] = $db->escape($_POST['use_comment_rating']);
+				$config['display_unaccepted_comments'] = $db->escape($_POST['display_unaccepted_comments']);
+				$config['use_antispam'] = $db->escape($_POST['use_antispam']);
+				$config['links_within_comments'] = $db->escape($_POST['links_within_comments']);
+				$config['max_comment_description'] = $db->escape($_POST['max_comment_description']);
+				$config['categories_sorted_by'] = $db->escape($_POST['categories_sorted_by']);
+				$config['comments_per_page'] = $db->escape($_POST['comments_per_page']);
+			]]>
+		</hook>
+	</hooks>
+</extension>

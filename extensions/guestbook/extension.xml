@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>guestbook</id>
+	<title>Guestbook</title>
+	<version>1.0</version>
+	<author>Anders Persson</author>
+	<description>Adds a guestbook page where anyone can leave their comments.</description>
+	<install>
+		<![CDATA[
+			//Creating the comments table
+			$schema = array(
+				'FIELDS' => array(
+					'id' => array(
+						'datatype' => 'SERIAL',
+						'allow_null' => false
+					),
+					'title' => array(
+						'datatype' => 'VARCHAR(255)',
+						'allow_null' => false,
+						'default' => '""'
+					),
+					'description' => array(
+						'datatype' => 'TEXT',
+						'allow_null' => true
+					),
+					'name' => array(
+						'datatype' => 'VARCHAR(100)',
+						'allow_null' => false,
+						'default' => '""'
+					),
+					'date_submitted' => array(
+						'datatype' => 'TIMESTAMP',
+						'allow_null' => false,
+						'default' => 'CURRENT_TIMESTAMP'
+					),
+					'ip' => array(
+						'datatype' => 'VARCHAR(15)',
+						'allow_null' => false,
+						'default' => '""'
+					),
+					'active' => array(
+						'datatype' => 'TINYINT(1) UNSIGNED',
+						'allow_null' => false,
+						'default' => '0'
+					)
+				),
+				'PRIMARY KEY' => array('id')
+			);
+			$db->create_table('guestbook_comments', $schema);
+
+
+			//Creating the votes table
+			$schema = array(
+				'FIELDS' => array(
+					'id' => array(
+						'datatype' => 'SERIAL',
+						'allow_null' => false
+					),
+					'comment_id' => array(
+						'datatype' => 'INT(10) UNSIGNED',
+						'allow_null' => false,
+						'default' => '0'
+					),
+					'rating' => array(
+						'datatype' => 'TINYINT(2)',
+						'allow_null' => false,
+						'default' => '0'
+					),
+					'ip' => array(
+						'datatype' => 'VARCHAR(15)',
+						'allow_null' => false,
+						'default' => '""'
+					),
+				),
+				'PRIMARY KEY' => array('id')
+			);
+			$db->create_table('guestbook_votes', $schema);
+
+
+			//set guestbook settings values
+			$config = array(
+				'guestbook_allow_comments' => 'Y',
+				'guestbook_use_comment_titles' => 'N',
+				'guestbook_use_comment_rating' => 'N',
+				'guestbook_display_unaccepted_comments' => 'N',
+				'guestbook_use_antispam' => 'Y',
+				'guestbook_links_within_comments' => 'N',
+				'guestbook_max_comment_description' => '1000',
+				'guestbook_comments_per_page' => '20',
+				'guestbook_comments_sorted_by' => 'id'
+			);
+			while (list($conf_name, $conf_value) = @each($config))
+			{
+				$query = array(
+					'INSERT' => 'title, value',
+					'INTO' => 'settings',
+					'VALUES' => '"' .$conf_name. '","' .$conf_value. '"'
+				);
+				$db->query_build($query);
+			}
+
+
+			//keep the settings cache update immidialety
+			generate_settings_cache();
+		]]>
+	</install>
+	<uninstall>
+		<![CDATA[
+			//drop all tables that have been installed
+			$db->drop_table('guestbook_comments');
+			$db->drop_table('guestbook_comments_votes');
+
+
+			//remove guestbook settings values
+			$config = array(
+				'title="guestbook_allow_comments"',
+				'title="guestbook_use_comment_titles"',
+				'title="guestbook_use_comment_rating"',
+				'title="guestbook_display_unaccepted_comments"',
+				'title="guestbook_use_antispam"',
+				'title="guestbook_links_within_comments"',
+				'title="guestbook_max_comment_description"',
+				'title="guestbook_comments_per_page"',
+				'title="guestbook_sort_comments_by"',
+			);
+			while (list($conf_name, $conf_value) = @each($config))
+			{
+				$query = array(
+					'DELETE' => 'settings',
+					'WHERE' => $conf_value
+				);
+				$db->query_build($query);
+			}
+
+
+			//keep the settings cache update immidialety
+			generate_settings_cache();
+		]]>
+	</uninstall>
+	<hooks>
+		<hook id="header_top_hook">
+			<![CDATA[
+				if(isset($_GET['display']) && $_GET['display'] == "guestbook")
+					session_start();
+				ext_lang('guestbook');
+			]]>
+		</hook>
+		<hook id="admin_header_footer">
+			<![CDATA[
+				ext_lang('guestbook');
+			]]>
+		</hook>
+		<hook id="navigation_menu_footer">
+			<![CDATA[
+				require ext_theme_include('guestbook', 'guestbook_link.php');
+			]]>
+		</hook>
+		<hook id="index_default_page">
+			<![CDATA[
+				if(isset($_GET['display']) && $_GET['display'] == "guestbook")
+					ext_theme_page('guestbook', 'index.php');
+			]]>
+		</hook>
+		<hook id="admin_menu_general_footer">
+			<![CDATA[
+				require ext_theme_include('guestbook', 'admin/admin_menu_link.php');
+			]]>
+		</hook>
+		<hook id="admin_options_footer">
+			<![CDATA[
+				require ext_theme_include('guestbook', 'admin/admin_options.php');
+			]]>
+		</hook>
+		<hook id="admin_options_check">
+			<![CDATA[
+				$_POST['guestbook_allow_comments'] = isset($_POST['guestbook_allow_comments']) ? 'Y' : 'N';
+				$_POST['guestbook_use_comment_titles'] = isset($_POST['guestbook_use_comment_titles']) ? 'Y' : 'N';
+				$_POST['guestbook_display_unaccepted_comments'] = isset($_POST['guestbook_display_unaccepted_comments']) ? 'Y' : 'N';
+				$_POST['guestbook_use_antispam'] = isset($_POST['guestbook_use_antispam']) ? 'Y' : 'N';
+				$_POST['guestbook_links_within_comments'] = isset($_POST['guestbook_links_within_comments']) ? 'Y' : 'N';
+				
+				//$error->numeric_control('guestbook_use_comment_rating_warning', check_if_null($_POST['guestbook_use_comment_rating']), 'Only numerical values is accepted');
+				$error->numeric_control('guestbook_max_comment_description_warning', check_if_null($_POST['guestbook_max_comment_description']), 'Only numerical values is accepted');
+				$error->numeric_control('guestbook_comments_per_page_warning', check_if_null($_POST['guestbook_comments_per_page']), 'Only numerical values is accepted');
+				//error for guestbook_categories_sorting_by is missing
+			]]>
+		</hook>
+		<hook id="admin_options_while_update">
+			<![CDATA[
+				$config['guestbook_allow_comments'] = $db->escape($_POST['guestbook_allow_comments']);
+				$config['guestbook_use_comment_titles'] = $db->escape($_POST['guestbook_use_comment_titles']);
+				$config['guestbook_use_comment_rating'] = $db->escape($_POST['guestbook_use_comment_rating']);
+				$config['guestbook_display_unaccepted_comments'] = $db->escape($_POST['guestbook_display_unaccepted_comments']);
+				$config['guestbook_use_antispam'] = $db->escape($_POST['guestbook_use_antispam']);
+				$config['guestbook_links_within_comments'] = $db->escape($_POST['guestbook_links_within_comments']);
+				$config['guestbook_max_comment_description'] = $db->escape($_POST['guestbook_max_comment_description']);
+				$config['guestbook_comments_sorted_by'] = $db->escape($_POST['guestbook_comments_sorted_by']);
+				$config['guestbook_comments_per_page'] = $db->escape($_POST['guestbook_comments_per_page']);
+			]]>
+		</hook>
+	</hooks>
+</extension>

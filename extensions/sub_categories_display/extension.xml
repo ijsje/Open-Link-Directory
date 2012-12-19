@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>sub_categories_display</id>
+	<title>Sub-categories display</title>
+	<version>0.03</version>
+	<author>Anders Persson</author>
+	<description>Display subcategories below categories</description>
+	<hooks>
+		<hook id="categories_category_cells_footer">
+			<![CDATA[
+				$query = array(
+					'SELECT' => 'title, id',
+					'FROM' => 'categories',
+					'WHERE' => 'father_id=' .$category['id']. OPENLD_IF_ACTIVE_CATS,
+					'LIMIT' => 3
+				);
+				$sql = $db->query_build($query) or error("sub_categories_display", __FILE__, __LINE__);
+				if($db->num_rows($sql) != 0)
+				{
+					$first = true;
+					require ext_theme_include('sub_categories_display', 'subcats_html.php');
+				}
+			]]>
+		</hook>
+	</hooks>
+</extension>

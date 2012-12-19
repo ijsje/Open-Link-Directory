@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extension>
+	<id>mail_reminder</id>
+	<title>Mail Reminder</title>
+	<version>0.01</version>
+	<author>Anders Persson</author>
+	<description>Sends a mail everytime someone submits a link or suggest a category</description>
+	<hooks>
+		<hook id="submit_insert_sql">
+			<![CDATA[
+				mail($settings['email'], "New link submitted", "A new link has been submitted to your directory. \n". $settings['domain'], "From: ".$settings['admin_username']."@openld_directory.com");
+			]]>
+		</hook>
+		<hook id="submit_insert_sql_payment_validated">
+			<![CDATA[
+				mail($settings['email'], "New paid/sponsor link submitted", "A new paid/sponsor link has been submitted to your directory. \n". $settings['domain'], "From: ".$settings['admin_username']."@openld_directory.com");
+			]]>
+		</hook>
+		<hook id="suggest_sql">
+			<![CDATA[
+				mail($settings['email'], "New category submitted", "A new category has been submitted to your directory. \n". $settings['domain'], "From: ".$settings['admin_username']."@openld_directory.com");
+			]]>
+		</hook>
+	</hooks>
+</extension>

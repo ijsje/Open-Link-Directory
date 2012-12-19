@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<theme>
+	<id>optimseo_tabular</id>
+	<title>OptimSEO tabular</title>
+	<version>(Same as OpenLD)</version>
+	<author>chovy</author>
+	<description>This theme is based on simple_tabular and has been made to be a lightweight, simple CSS-based theme. Provided by the directory owners forum at http://optimseo.com</description>
+	<thumbnail>thumb.png</thumbnail>
+</theme>
