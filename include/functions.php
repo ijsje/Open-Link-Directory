@@ -23,16 +23,23 @@
 ************************************************************************/
 
 
-//extension functions
+/*
+ * A full implementation of a more object oriented way of getting
+ * filepaths to extensions would brake every extension included
+ * and therefore require a major code update
+ * */
+
 function ext_lang($ext_name)
 {
 	global $settings;
-	$lang_file = 'extensions/' .$ext_name. '/lang/' .$settings['language']. '.php';
-	$eng_file = 'extensions/' .$ext_name. '/lang/english.php';
-	if(file_exists($lang_file))
-		require $lang_file;
-	elseif(file_exists($eng_file))
-		require $eng_file;
+
+	$ext_file = new ExtensionPaths();
+	$ext_file->set_lang($settings['language']);
+	$ext_file->set_name($ext_name);
+	$path = $ext_file->get_language_filepath();
+	
+	if($path)
+		require $path;
 	else
 		error("language file is missing for extension ". $ext_name);
 }
@@ -41,32 +48,36 @@ function ext_lang($ext_name)
 function ext_theme_include($ext_name, $short_path)
 {
 	global $settings, $db;
-	$theme_folder = (substr($short_path, 0, 6) == 'admin/') ? $settings['admin_template_path'] : $settings['template_path'];
-	$theme_file = 'themes/' .$theme_folder. 'extensions/' .$ext_name. '/' .$short_path;
-	$ext_file = 'extensions/' .$ext_name. '/default_theme/' .$short_path;
-
-	if(file_exists($theme_file))
-		return $theme_file;
-	elseif(file_exists($ext_file))
-		return $ext_file;
+	$ext_path = new ExtensionPaths();
+	$ext_path->set_name($ext_name);
+	$ext_path->set_short_path($short_path);
+	
+	if(substr($short_path, 0, 6) == 'admin/')
+	{
+		$ext_path->set_admin_theme_folder($settings['admin_template_path']);
+		$path = $ext_path->get_admin_theme_filepath();
+		if($path)
+			return $path;
+		else
+			error("admin-theme and extension-admin-theme file is missing for extension ". $ext_name);
+	}
 	else
-		error("theme file is missing for extension ". $ext_name);
+	{
+		$ext_path->set_theme_folder($settings['template_path']);
+		$path = $ext_path->get_theme_filepath();
+		if($path)
+			return $path;
+		else
+			error("theme and extension-theme file is missing for extension ". $ext_name);
+	}
 }
 
 
 function ext_theme_page($ext_name, $short_path)
 {
-	global $settings, $page;
-	$theme_folder = (substr($short_path, 0, 6) == 'admin/') ? $settings['admin_template_path'] : $settings['template_path'];
-	$theme_file = 'themes/' .$theme_folder. 'extensions/' .$ext_name. '/' .$short_path;
-	$ext_file = 'extensions/' .$ext_name. '/default_theme/' .$short_path;
-
-	if(file_exists($theme_file))
-		$page = '../../' .$theme_file;
-	elseif(file_exists($ext_file))
-		$page = '../../' .$ext_file;
-	else
-		error("theme file is missing for extension ". $ext_name);
+	global $page, $settings, $db;
+	$page = ExtensionPaths::get_theme_page_filepath(ext_theme_include($ext_name, $short_path));
+	return true;
 }
 
 
