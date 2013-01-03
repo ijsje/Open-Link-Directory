@@ -69,7 +69,7 @@ function delete_category($id)
 		($hook = get_hook('admin_functions_delete_category_select_categories')) ? eval($hook) : null;
 		$results = $db->query_build($query) or error("Couldn't make the delete-select where id=".$current_id, __FILE__, __LINE__);
 		while($rows = $db->fetch_assoc($results))
-			array_push($categories, $rows['id']);
+			$categories[] = $rows['id'];
 	}
 }
 
