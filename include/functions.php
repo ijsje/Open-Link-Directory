@@ -33,7 +33,7 @@ function ext_lang($ext_name)
 {
 	global $settings;
 
-	$ext_file = new ExtensionPaths();
+	$ext_file = new ExtensionPath();
 	$ext_file->set_lang($settings['language']);
 	$ext_file->set_name($ext_name);
 	$path = $ext_file->get_language_filepath();

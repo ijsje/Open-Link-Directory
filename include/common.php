@@ -37,7 +37,7 @@ if (!defined('OPENLD_ROOT'))
 	exit('The constant OPENLD_ROOT must be defined and point to a valid OPENLDBB installation root directory.');
 
 // Load the classes from the library
-require OPENLD_ROOT.'lib/Extension.class.php';
+require OPENLD_ROOT.'lib/ExtensionPath.class.php';
 // Load the functions script - needs to load before use of redirect()
 require OPENLD_ROOT.'include/functions.php';
 
