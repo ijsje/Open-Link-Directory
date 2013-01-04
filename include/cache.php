@@ -29,24 +29,16 @@ if(!defined("OPENLD_ROOT"))
 function generate_bans_cache()
 {
 	global $db, $openld_bans;
-	$openld_bans = array();
-
-	$query = array(
+	
+	$cache = new CacheGenerator($db);
+	$cache->array_name('$openld_bans');
+	$cache->cache_file('cache_bans');
+	$cache->file_start_content('define(\'OPENLD_BANS_LOADED\', 1);');
+	$cache->query(array(
 		'SELECT' => 'id, ip',
 		'FROM' => 'ip_bans'
-	);
-	$result = $db->query_build($query, false, true) or error("Could not get IPs", __FILE__, __LINE__);
-	while ($cur_ban = $db->fetch_assoc($result))
-		$openld_bans[$cur_ban['id']] = $cur_ban['ip'];
-
-	// Output hooks as PHP code
-	$fh = @fopen(OPENLD_ROOT.'cache/cache_bans.php', 'wb');
-	if (!$fh)
-		error('Unable to write hooks cache file to cache directory. Please make sure PHP has write access to the directory \'cache\'', __FILE__, __LINE__);
-
-	fwrite($fh, '<?php'."\n\n".'define(\'OPENLD_BANS_LOADED\', 1);'."\n\n".'$openld_bans = '.var_export($openld_bans, true).';'."\n\n".'?>');
-
-	fclose($fh);
+	));
+	$cache->start();
 }
 
 
@@ -54,28 +46,17 @@ function generate_bans_cache()
 function generate_hooks_cache()
 {
 	global $db, $openld_hooks;
-	$openld_hooks = array();
-	// Get the hooks from the DB
-	$output = array();
-
-	$query = array(
+	
+	$cache = new CacheGenerator($db);
+	$cache->array_name('$openld_hooks');
+	$cache->cache_file('cache_hooks');
+	$cache->file_start_content('define(\'OPENLD_HOOKS_LOADED\', 1);');
+	$cache->query(array(
 		'SELECT' => 'id, code',
 		'FROM' => 'extension_hooks',
 		'ORDER BY' => 'installed'
-	);
-	$result = $db->query_build($query, false, true) or error('Unable to fetch extension hooks', __FILE__, __LINE__);
-
-	while ($cur_hook = $db->fetch_assoc($result))
-		$output[$cur_hook['id']][] = $cur_hook['code'];
-
-	// Output hooks as PHP code
-	$fh = @fopen(OPENLD_ROOT.'cache/cache_hooks.php', 'wb');
-	if (!$fh)
-		error('Unable to write hooks cache file to cache directory. Please make sure PHP has write access to the directory \'cache\'', __FILE__, __LINE__);
-
-	fwrite($fh, '<?php'."\n\n".'define(\'OPENLD_HOOKS_LOADED\', 1);'."\n\n".'$openld_hooks = '.var_export($output, true).';'."\n\n".'?>');
-
-	fclose($fh);
+	));
+	$cache->start();
 }
 
 
@@ -83,23 +64,14 @@ function generate_hooks_cache()
 function generate_settings_cache()
 {
 	global $db, $settings;
-	$settings=array();
-	//Output as php code
-	$query = array(
+	
+	$cache = new CacheGenerator($db);
+	$cache->array_name('$settings');
+	$cache->cache_file('cache_settings');
+	$cache->file_start_content('define(\'OPENLD_CONFIG_LOADED\', 1);');
+	$cache->query(array(
 		'SELECT' => 'title, value',
 		'FROM' => 'settings'
-	);
-	$result = $db->query_build($query, false, true) or error('Unable to fetch directory settings', __FILE__, __LINE__);
-
-	while ($cur_config_item = $db->fetch_row($result))
-		$settings[$cur_config_item[0]] = $cur_config_item[1];
-
-	// Output config as PHP code
-	$fh = @fopen(OPENLD_ROOT.'cache/cache_settings.php', 'wb');
-	if (!$fh)
-		error('Unable to write configuration cache file to cache directory. Please make sure PHP has write access to the directory \'cache\'', __FILE__, __LINE__);
-
-	fwrite($fh, '<?php'."\n\n".'define(\'OPENLD_CONFIG_LOADED\', 1);'."\n\n".'$settings = '.var_export($settings, true).';'."\n\n".'?>');
-
-	fclose($fh);
+	));
+	$cache->start();
 }

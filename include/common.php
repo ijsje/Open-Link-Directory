@@ -38,6 +38,7 @@ if (!defined('OPENLD_ROOT'))
 
 // Load the classes from the library
 require OPENLD_ROOT.'lib/ExtensionPath.class.php';
+require OPENLD_ROOT.'lib/CacheGenerator.class.php';
 // Load the functions script - needs to load before use of redirect()
 require OPENLD_ROOT.'include/functions.php';
 
